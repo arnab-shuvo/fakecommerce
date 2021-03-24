@@ -1,0 +1,30 @@
+{
+	"name": "api",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"start": "nodemon server.js"
+	},
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bcrypt": "^5.0.1",
+		"cors": "^2.8.5",
+		"ejs": "^3.0.2",
+		"express": "^4.17.1",
+		"express-validator": "5.3.1",
+		"is-base64": "^1.1.0",
+		"jest": "^25.2.4",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^5.9.6",
+		"morgan": "^1.10.0",
+		"nodemon": "^2.0.7",
+		"passport": "^0.4.1",
+		"passport-http-bearer": "^1.0.1",
+		"passport-jwt": "^4.0.0",
+		"passport-local": "^1.0.0",
+		"supertest": "^4.0.2"
+	}
+}
