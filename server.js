@@ -17,6 +17,7 @@ const productRoute = require('./routes/product');
 const homeRoute = require('./routes/home');
 const cartRoute = require('./routes/cart');
 const userRoute = require('./routes/user');
+const orderRoute = require('./routes/order');
 const categoryRoute = require('./routes/category');
 
 //middleware
@@ -33,11 +34,12 @@ app.set('views', 'views');
 app.disable('view cache');
 
 //routes middleware
-app.use('/', homeRoute);
+// app.use('/', homeRoute);
 app.use('/products', productRoute);
 app.use('/cart', cartRoute);
-app.use('/my', userRoute);
+app.use('/', userRoute);
 app.use('/category', categoryRoute);
+app.use('/order', orderRoute);
 app.use('/files', express.static(path.join(__dirname, '/uploads')));
 //mongoose
 mongoose.set('useFindAndModify', false);

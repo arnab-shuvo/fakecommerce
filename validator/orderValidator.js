@@ -1,12 +1,13 @@
 module.exports = (req, res, next) => {
 	//Validate post creation rule from schema
-	req.check('email', 'Email required').notEmpty();
-	req.check('email', 'Provide a valid email id').isEmail();
-	req.check('username').notEmpty();
-	req.check('password', 'Password required').notEmpty();
-	req.check('password', 'Password must be 8-20 characters long').isLength({
-		min: 8,
-		max: 20,
+	req.check('status', 'Status required').notEmpty();
+	req.check('status', 'Invalid Status supplied ').custom((data) => {
+		if ([0, 1, 2].includes(data)) return false;
+		return true;
+	});
+	req.check('status', 'Invalid Status supplied ').custom((data) => {
+		if (typeof data !== 'number') return false;
+		return true;
 	});
 
 	const errors = req.validationErrors();

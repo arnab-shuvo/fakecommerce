@@ -7,6 +7,5 @@ const { isAuth } = require('../auth/auth');
 router.get('/', isAuth, cart.getCartsbyUserid);
 
 router.post('/', isAuth, cartValidator, cart.addCart);
-router.delete('/:id', cart.deleteCart);
 
 module.exports = router;

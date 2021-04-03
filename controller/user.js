@@ -51,7 +51,7 @@ module.exports.signup = async (req, res) => {
 			},
 		},
 		phone: req.body.phone ? req.body.phone : 0,
-		role: req.body.role ? req.body.role : 'user',
+		role: 'user',
 	});
 	await user.save();
 	const newUser = await User.findOne({ email: user.email }).select(['-_id', '-password']);

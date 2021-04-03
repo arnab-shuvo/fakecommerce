@@ -1,265 +1,274 @@
-# FakeStoreAPI
-
-[FakeStoreAPI](https://fakestoreapi.com) is a free online REST API that you can use whenever you need Pseudo-real data for
-        your e-commerce or shopping website without running any server-side code. 
-        It's awesome for teaching purposes, sample codes, tests and etc.
-
-You can visit in detail docs in [FakeStoreAPI](https://fakestoreapi.com) for more information.
+# FakeCommerce
 
 ## Why?
-When I wanted to design a shopping website prototype and needed fake data, I had to
-use lorem ipsum data or create a JSON file from the base. I didn't find any online free web service
-to return semi-real shop data instead of lorem ipsum data.
-so I decided to create this simple web service whit NodeJs(express) and MongoDB as a database.
 
-## Resources
-
-There are 3 main resources need in shopping prototypes:
-
-- Products https://fakestoreapi.com/products
-- Carts https://fakestoreapi.com/carts
-- Users https://fakestoreapi.com/users
+WHile conducting a training session on ReactJs, I had to supply my students APIs for their implementation. Got so many options in Web but couldnt be satisfied. So built this one as dummy project. Hope it can help others as well.
 
 ## How to
+
 you can fetch data with any kind of methods you know(fetch API, Axios, jquery ajax,...)
+
+## Pre-requisites
+
+1. NodeJs
+2. MongoDb
+3. Npm
+
+## How To Run
+
+1. At first clone the project.
+2. Run `yarn` or `npm install` to install all the dependencies
+3. The system will run on `port: 8080`. You can modify it by changing the port in `server.js` or adding an `env` variable.
+4. Once installed, run `yarn start` or `npm start`
+5. The API url will be `localhost:{PORT}/{ROUTES}`
 
 ### Get all products
 
 ```js
-fetch('https://fakestoreapi.com/products')
-  .then(res => res.json())
-  .then(json => console.log(json))
+fetch('{BASE_URL}/products')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
 ### Get a single product
 
 ```js
-fetch('https://fakestoreapi.com/products/1')
-  .then(res => res.json())
-  .then(json => console.log(json))
+fetch('{BASE_URL}/products/1')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
 ### Add new product
 
-```js
-fetch('https://fakestoreapi.com/products', {
-  method: 'POST',
-  body: JSON.stringify({
-     title: 'test product',
-     price: 13.5,
-     description: 'lorem ipsum set',
-     image: 'https://i.pravatar.cc',
-     category: 'electronic'
-  })
-})
-  .then(res => res.json())
-  .then(json => console.log(json))
+##### Dependency
 
-/* will return
-{
- id:31,
- title:'...',
- price:'...',
- category:'...',
- description:'...',
- image:'...'
-}
-*/
+Required Admin User account
+
+```js
+fetch('{BASE_URL}/products', {
+	method: 'POST',
+	body: JSON.stringify({
+		title: 'test product',
+		price: 13.5,
+		description: 'lorem ipsum set',
+		image: 'BASE64',
+		stock: 123,
+		category_id: '1234',
+	}),
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
-Note: Posted data will not really insert into the database and just return a fake id.
-
-### Updating a product
+### Get a product in a particular category ID
 
 ```js
-fetch('https://fakestoreapi.com/products/7', {
-  method: 'PUT',
-  body: JSON.stringify({
-     title: 'test product',
-     price: 13.5,
-     description: 'lorem ipsum set',
-     image: 'https://i.pravatar.cc',
-     category: 'electronic'
-  })
-})
-  .then(res => res.json())
-  .then(json => console.log(json))
-
-/* will return
-{
-    id:7,
-    title: 'test product',
-    price: 13.5,
-    description: 'lorem ipsum set',
-    image: 'https://i.pravatar.cc',
-    category: 'electronic'
-}
-*/
+fetch('{BASE_URL}/products/category/1234')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
+### Edit Product
+
+Required Admin User account
+
 ```js
-fetch('https://fakestoreapi.com/products/8', {
+fetch('{BASE_URL}/products/213123', {
+	method: 'PATCH',
+	body: JSON.stringify({
+		title: 'test product',
+		price: 13.5,
+		description: 'lorem ipsum set',
+		image: 'BASE64',
+		stock: 123,
+		category_id: '1234',
+	}),
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Delete Product
+
+Required Admin User account
+
+```js
+fetch('{BASE_URL}/products/213123', {
+	method: 'DELETE',
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+# Category
+
+### Get Category List
+
+```js
+fetch('{BASE_URL}/category')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Create a Category
+
+Require Admin Account
+
+```js
+fetch('{BASE_URL}/category', {
+	method: 'POST',
+	body: JSON.stringify({
+		name: 'test Category',
+		description: 'Description',
+	}),
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Edit a Category
+
+Require Admin Account
+
+```js
+fetch('{BASE_URL}/category/{ID}', {
+	method: 'PATCH',
+	body: JSON.stringify({
+		name: 'test Category',
+		description: 'Description',
+	}),
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Delete a Category
+
+Require Admin Account
+
+```js
+fetch('{BASE_URL}/category/{ID}', {
+	method: 'DELETE',
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+# Cart
+
+### Get Cart
+
+Require User Authentication
+
+```js
+fetch('{BASE_URL}/cart')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Get Cart
+
+Require User Authentication
+
+```js
+fetch('{BASE_URL}/cart',
+{
+  method: 'POST',{
+      "product":{
+  		"id": "6059fbefe439202d2bd1120a",
+  		"quantity" : 1
+  	},
+  }
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+# Order
+
+### Get All Order List
+
+Require Admin Authentication
+
+```js
+fetch('{BASE_URL}/order')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Checkout a Cart
+
+Require User Authentication
+
+```js
+fetch('{BASE_URL}/order/checkout')
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Update an Order
+
+Require User Authentication
+
+```js
+fetch('{BASE_URL}/order/{ID}',{
   method: 'PATCH',
-  body: JSON.stringify({
-     title: 'test product',
-     price: 13.5,
-     description: 'lorem ipsum set',
-     image: 'https://i.pravatar.cc',
-     category: 'electronic'
-  })
+  {
+      Status: any of [0,1,2]
+  }
 })
-  .then(res => res.json())
-  .then(json => console.log(json))
-
-/* will return
-{
-    id:8,
-    title: 'test product',
-    price: 13.5,
-    description: 'lorem ipsum set',
-    image: 'https://i.pravatar.cc',
-    category: 'electronic'
-}
-*/
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
-Note: Edited data will not really be updated into the database.
+    # USER
 
-### Deleting a product
+### SignUP
 
 ```js
-fetch('https://fakestoreapi.com/products/8', {
-  method: 'DELETE'
+fetch('{BASE_URL}/signup',{
+  method: "POST",{
+      email: "test@gmail.com",
+		username: 'username',
+		password: 'password',
+		firstname: 'First name',
+		lastname: 'Last name',
+		address: {
+			city: 'Address',
+			street:'Address',
+			number: 'Address'
+			zipcode: 'Address',
+			geolocation: {
+				lat: 'LAT',
+				long:'LONG',
+			},
+		},
+		phone: 'Phone Number',
+  }
 })
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
 
-Nothing will delete on the database.
-
-### Sort and Limit
-
-You can use query string to limit results or sort by asc|desc
+### SignIn
 
 ```js
-// Will return all the posts that belong to the first user
-fetch('https://fakestoreapi.com/products?limit=3&sort=desc')
-  .then(res => res.json())
-  .then(json => console.log(json))
+fetch('{BASE_URL}/signup',{
+  method: "POST",{
+      email: "test@gmail.com",
+		password: 'password',
+  }
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
 ```
-
-## All available routes
-
-### Products
-```js
-fields: 
-{
-    id:Number,
-    title:String,
-    price:Number,
-    category:String,
-    description:String,
-    image:String
-}
-```
-
-GET:
-- /products (get all products)
-- /products/1 (get specific product based on id)  
-- /products?limit=5 (limit return results )
-- /products?sort=desc (asc|desc  get products in ascending or descending orders (default to asc))
-- /products/products/categories  (get all categories)
-- /products/category/jewelery  (get all products in specific category)
-- /products/category/jewelery?sort=desc (asc|desc get products in ascending or descending orders (default to asc))
-
-POST:
-- /products 
-
--PUT,PATCH
-- /products/1 
-
--DELETE
-- /products/1 
-
-
-
-
-### Carts
-```js
-fields: 
-{
-    id:Number,
-    userId:Number,
-    date:Date,
-    products:[{productId:Number,quantity:Number}]
-}
-```
-
-GET:
-- /carts (get all carts)
-- /carts/1 (get specific cart based on id)  
-- /carts?startdate=2020-10-03&enddate=2020-12-12 (get carts in date range)
-- /carts/user/1 (get a user cart)
-- /carts/user/1?startdate=2020-10-03&enddate=2020-12-12 (get user carts in date range)
-- /carts?limit=5 (limit return results )
-- /carts?sort=desc (asc|desc get carts in ascending or descending orders (default to asc))
-
-POST:
-- /carts 
-
-PUT,PATCH:
-- /carts/1 
-
-DELETE:
-- /carts/1 
-
-
-
-
-### Users
-```js
-fields: 
-{
-    id:20,
-    email:String,
-    username:String,
-    password:String,
-    name:{
-        firstname:String,
-        lastname:String
-        },
-    address:{
-    city:String,
-    street:String,
-    number:Number,
-    zipcode:String,
-    geolocation:{
-        lat:String,
-        long:String
-        }
-    },
-    phone:String
-}
-```
-GET:
-- /users (get all users)
-- /users/1 (get specific user based on id)  
-- /users?limit=5 (limit return results )
-- /users?sort=desc (asc|desc get users in ascending or descending orders (default to asc))
-
-POST:
-- /users 
-
-PUT,PATCH:
-- /users/1 
-
-DELETE:
-- /users/1 
- 
-
-
-
 
 ## ToDo
 
-- Add graphql support
-- Add pagination
-- Add another language support
+-   Add graphql support
+-   Add pagination
+-   Add another language support
+
+```
+
+```
