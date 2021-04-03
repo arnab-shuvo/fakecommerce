@@ -22,7 +22,7 @@
     })
 </script>
 <script>
-   // let targetAnchor = document.getElementById("try")
+    // let targetAnchor = document.getElementById("try")
 
     let links = document.querySelectorAll("a[href*='#']")
 
@@ -32,7 +32,7 @@
 
             let hash = links[i].hash
             let targetAnchor = document.querySelector(hash)
-            console.log(hash,targetAnchor.offsetTop,window.scrollY)
+            console.log(hash, targetAnchor.offsetTop, window.scrollY)
 
             window.scrollTo({
                 top: targetAnchor.offsetTop + 620,
