@@ -25,17 +25,17 @@ you can fetch data with any kind of methods you know(fetch API, Axios, jquery aj
 ### Get all products
 
 ```js
-fetch('{BASE_URL}/products')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/products")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Get a single product
 
 ```js
-fetch('{BASE_URL}/products/1')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/products/1")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Add new product
@@ -45,27 +45,27 @@ fetch('{BASE_URL}/products/1')
 Required Admin User account
 
 ```js
-fetch('{BASE_URL}/products', {
-	method: 'POST',
-	body: JSON.stringify({
-		title: 'test product',
-		price: 13.5,
-		description: 'lorem ipsum set',
-		image: 'BASE64',
-		stock: 123,
-		category_id: '1234',
-	}),
+fetch("{BASE_URL}/products", {
+    method: "POST",
+    body: JSON.stringify({
+        title: "test product",
+        price: 13.5,
+        description: "lorem ipsum set",
+        image: "BASE64",
+        stock: 123,
+        category_id: "1234",
+    }),
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Get a product in a particular category ID
 
 ```js
-fetch('{BASE_URL}/products/category/1234')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/products/category/1234")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Edit Product
@@ -73,19 +73,19 @@ fetch('{BASE_URL}/products/category/1234')
 Required Admin User account
 
 ```js
-fetch('{BASE_URL}/products/213123', {
-	method: 'PATCH',
-	body: JSON.stringify({
-		title: 'test product',
-		price: 13.5,
-		description: 'lorem ipsum set',
-		image: 'BASE64',
-		stock: 123,
-		category_id: '1234',
-	}),
+fetch("{BASE_URL}/products/213123", {
+    method: "PATCH",
+    body: JSON.stringify({
+        title: "test product",
+        price: 13.5,
+        description: "lorem ipsum set",
+        image: "BASE64",
+        stock: 123,
+        category_id: "1234",
+    }),
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Delete Product
@@ -93,11 +93,11 @@ fetch('{BASE_URL}/products/213123', {
 Required Admin User account
 
 ```js
-fetch('{BASE_URL}/products/213123', {
-	method: 'DELETE',
+fetch("{BASE_URL}/products/213123", {
+    method: "DELETE",
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 # Category
@@ -105,9 +105,9 @@ fetch('{BASE_URL}/products/213123', {
 ### Get Category List
 
 ```js
-fetch('{BASE_URL}/category')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/category")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Create a Category
@@ -115,15 +115,15 @@ fetch('{BASE_URL}/category')
 Require Admin Account
 
 ```js
-fetch('{BASE_URL}/category', {
-	method: 'POST',
-	body: JSON.stringify({
-		name: 'test Category',
-		description: 'Description',
-	}),
+fetch("{BASE_URL}/category", {
+    method: "POST",
+    body: JSON.stringify({
+        name: "test Category",
+        description: "Description",
+    }),
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Edit a Category
@@ -131,15 +131,15 @@ fetch('{BASE_URL}/category', {
 Require Admin Account
 
 ```js
-fetch('{BASE_URL}/category/{ID}', {
-	method: 'PATCH',
-	body: JSON.stringify({
-		name: 'test Category',
-		description: 'Description',
-	}),
+fetch("{BASE_URL}/category/{ID}", {
+    method: "PATCH",
+    body: JSON.stringify({
+        name: "test Category",
+        description: "Description",
+    }),
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Delete a Category
@@ -147,11 +147,11 @@ fetch('{BASE_URL}/category/{ID}', {
 Require Admin Account
 
 ```js
-fetch('{BASE_URL}/category/{ID}', {
-	method: 'DELETE',
+fetch("{BASE_URL}/category/{ID}", {
+    method: "DELETE",
 })
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 # Cart
@@ -161,9 +161,9 @@ fetch('{BASE_URL}/category/{ID}', {
 Require User Authentication
 
 ```js
-fetch('{BASE_URL}/cart')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/cart")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Get Cart
@@ -191,9 +191,9 @@ fetch('{BASE_URL}/cart',
 Require Admin Authentication
 
 ```js
-fetch('{BASE_URL}/order')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/order")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Checkout a Cart
@@ -201,9 +201,9 @@ fetch('{BASE_URL}/order')
 Require User Authentication
 
 ```js
-fetch('{BASE_URL}/order/checkout')
-	.then((res) => res.json())
-	.then((json) => console.log(json));
+fetch("{BASE_URL}/order/checkout")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ### Update an Order
