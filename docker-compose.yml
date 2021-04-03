@@ -1,0 +1,22 @@
+version: "3"
+services:
+    db:
+        image: mongo
+        restart: unless-stopped
+        ports:
+            - 27017:27017
+        volumes:
+            - mongodb:/var/lib/mongodb/data/
+    web:
+        restart: unless-stopped
+        build: .
+        ports:
+            - 8080:8080
+        volumes:
+            - .:/usr/src/app
+        env_file:
+            - ./.env
+        depends_on:
+            - db
+volumes:
+    mongodb:

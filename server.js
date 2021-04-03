@@ -44,13 +44,13 @@ app.use("/files", express.static(path.join(__dirname, "/uploads")));
 //mongoose
 mongoose.set("useFindAndModify", false);
 mongoose
-    .connect("mongodb://localhost:27017/store-api", {
+    .connect(`mongodb://${process.env.HOST}:27017/store-api`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
     .then((result) => {
         app.listen(process.env.PORT || port, () => {
-            console.log("connect");
+            console.log(`Server running at ${process.env.PORT || port}`);
         });
     })
     .catch((err) => {
