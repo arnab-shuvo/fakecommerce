@@ -184,3 +184,24 @@ module.exports.deleteProduct = (req, res) => {
         });
     }
 };
+
+
+exports.sendImageData=(req,res)=>{
+    const uploadPath = process.cwd();
+    const localPath = `${uploadPath}/uploads/`;
+    if(req.params.file_name==null){
+        res.json({
+            status: "error",
+            message: "Product id should be provided",
+        });
+    }else{
+        const fileName=req.params.file_name;
+        fs.readFile(localPath + fileName, function(err, data) {
+            if (err) throw err;
+          
+            res.set('Content-Type', 'image/png')
+            res.send(data)
+        })
+        
+    }
+}
