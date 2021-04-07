@@ -9,6 +9,9 @@ const morgan = require("morgan");
 const passport = require("passport");
 const expressValidator = require("express-validator");
 require("./auth/auth");
+require("dotenv").config();
+
+
 //port
 const port = 8080;
 
@@ -30,11 +33,13 @@ app.use(expressValidator());
 app.use(passport.initialize());
 //view engine
 app.set("view engine", "ejs");
+// app.engine("ejs", require("ejs").__express);
 app.set("views", "views");
 app.disable("view cache");
 
 //routes middleware
 // app.use('/', homeRoute);
+app.use("/home", homeRoute);
 app.use("/products", productRoute);
 app.use("/cart", cartRoute);
 app.use("/", userRoute);
@@ -44,7 +49,7 @@ app.use("/files", express.static(path.join(__dirname, "/uploads")));
 //mongoose
 mongoose.set("useFindAndModify", false);
 mongoose
-    .connect(`mongodb://${process.env.HOST}:27017/store-api`, {
+    .connect(`mongodb://localhost:27017/store-api`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
