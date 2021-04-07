@@ -47,13 +47,18 @@ Required Admin User account
 ```js
 fetch("{BASE_URL}/products", {
     method: "POST",
+    headers: {
+        authorization:"bearer {TOKEN}"  
+    },
     body: JSON.stringify({
         title: "test product",
         price: 13.5,
         description: "lorem ipsum set",
         image: "BASE64",
         stock: 123,
-        category_id: "1234",
+        category:{
+            _id:"1234"
+        } 
     }),
 })
     .then((res) => res.json())
@@ -253,7 +258,7 @@ fetch('{BASE_URL}/signup',{
 ### SignIn
 
 ```js
-fetch('{BASE_URL}/signup',{
+fetch('{BASE_URL}/signin',{
   method: "POST",{
       email: "test@gmail.com",
 		password: 'password',

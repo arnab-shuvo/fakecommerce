@@ -9,8 +9,10 @@ const morgan = require("morgan");
 const passport = require("passport");
 const expressValidator = require("express-validator");
 require("./auth/auth");
+require('dotenv').config();
+
 //port
-const port = 8080;
+const port =process.env.PORT || 8080;
 
 //routes
 const productRoute = require("./routes/product");

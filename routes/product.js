@@ -11,5 +11,7 @@ router.get("/category/:categoryid", product.getProductsInCategory);
 router.post("/", productValidator, isAuth, isAdmin, product.addProduct);
 router.patch("/:id", isAuth, isAdmin, product.editProduct);
 router.delete("/:id", isAuth, isAdmin, product.deleteProduct);
+router.get("/files/:file_name",product.sendImageData)
+
 
 module.exports = router;
