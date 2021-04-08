@@ -44,7 +44,7 @@ app.use("/files", express.static(path.join(__dirname, "/uploads")));
 //mongoose
 mongoose.set("useFindAndModify", false);
 mongoose
-    .connect(`mongodb://${process.env.HOST}:27017/store-api`, {
+    .connect(`mongodb://localhost:27017/store-api`, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

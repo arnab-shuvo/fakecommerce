@@ -4,8 +4,10 @@ const passport = require("passport");
 const { signUpValidator, loginValidator } = require("../validator");
 const { signup } = require("../controller/user");
 
+const isAdmin = require("../middleware/isAdmin")
+
 // router.get('/',user.getAllUser)
-router.post("/signup", signUpValidator, signup);
+router.post("/signup", signUpValidator, isAdmin, signup);
 router.post(
     "/signin",
     loginValidator,
