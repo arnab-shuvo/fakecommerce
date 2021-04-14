@@ -38,6 +38,7 @@ passport.use(
                     message: "Logged in Successfully",
                     userInfo: {
                         user: user.email,
+                        role:user.role,
                         token: token,
                         expire_at: expire_at,
                     },
