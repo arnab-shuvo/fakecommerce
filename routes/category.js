@@ -7,13 +7,8 @@ const isAdmin = require("../middleware/isAdmin");
 const { categoryValidator } = require("../validator");
 
 router.get("/", category.getAllCategories);
-router.post(
-    "/",
-    categoryValidator,
-    isAuth,
-    isAdmin,
-    category.addCategory,
-);
+router.get("/:id", category.categoryDetail);
+router.post("/", categoryValidator, isAuth, isAdmin, category.addCategory);
 router.patch(
     "/:categoryId",
     categoryValidator,
@@ -21,11 +16,6 @@ router.patch(
     isAdmin,
     category.editCategory,
 );
-router.delete(
-    "/:categoryId",
-    isAuth,
-    isAdmin,
-    category.deleteCategory,
-);
+router.delete("/:categoryId", isAuth, isAdmin, category.deleteCategory);
 
 module.exports = router;

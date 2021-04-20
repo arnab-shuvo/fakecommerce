@@ -48,7 +48,7 @@ Required Admin User account
 fetch("{BASE_URL}/products", {
     method: "POST",
     headers: {
-        authorization:"bearer {TOKEN}"  
+        authorization: "bearer {TOKEN}",
     },
     body: JSON.stringify({
         title: "test product",
@@ -56,9 +56,9 @@ fetch("{BASE_URL}/products", {
         description: "lorem ipsum set",
         image: "BASE64",
         stock: 123,
-        category:{
-            _id:"1234"
-        } 
+        category: {
+            _id: "1234",
+        },
     }),
 })
     .then((res) => res.json())
@@ -111,6 +111,14 @@ fetch("{BASE_URL}/products/213123", {
 
 ```js
 fetch("{BASE_URL}/category")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
+### Get Category Details
+
+```js
+fetch("{BASE_URL}/category/{CategoryId}")
     .then((res) => res.json())
     .then((json) => console.log(json));
 ```
@@ -266,6 +274,84 @@ fetch('{BASE_URL}/signin',{
 })
 	.then((res) => res.json())
 	.then((json) => console.log(json));
+```
+
+### Add USer by Admin
+
+Require Admin Authentication
+
+```
+req.body = {
+     "address": {
+        "geolocation": {
+            "lat": "0",
+            "long": "0"
+        },
+        "city": "N/A",
+        "street": "N/A",
+        "number": 0,
+        "zipcode": "0"
+    },
+    "role": "user/admin",
+    "email": "user@email.com",
+    "username": "username",
+    "phone": "phonenumber",
+    "password": "password"
+}
+
+```
+
+```js
+fetch('{BASE_URL}/user',{
+  method: "POST",req.body
+})
+	.then((res) => res.json())
+	.then((json) => console.log(json));
+```
+
+### Delete user by ID
+
+Require Admin Authentication
+
+```js
+fetch("{BASE_URL}/user/{UserId}", {
+    method: "DELETE",
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
+### Update user by ID
+
+Require Admin Authentication
+
+```
+req.body = {
+     "address": {
+        "geolocation": {
+            "lat": "0",
+            "long": "0"
+        },
+        "city": "N/A",
+        "street": "N/A",
+        "number": 0,
+        "zipcode": "0"
+    },
+    "role": "user/admin",
+    "email": "user@email.com",
+    "username": "username",
+    "phone": "phonenumber",
+    "password": "password"
+}
+
+```
+
+```js
+fetch("{BASE_URL}/user/{UserId}", {
+    method: "PATCH",req.body
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
 ```
 
 ## ToDo

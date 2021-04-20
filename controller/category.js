@@ -1,4 +1,5 @@
 const Category = require("../model/categories");
+const ObjectID = require("mongodb").ObjectID;
 
 module.exports.getAllCategories = (req, res) => {
     try {
@@ -7,6 +8,21 @@ module.exports.getAllCategories = (req, res) => {
                 res.json(products);
             })
             .catch((err) => console.log(err));
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
+
+module.exports.categoryDetail = async (req, res) => {
+    if (req.params.id == null || !ObjectID.isValid(req.params.id)) {
+        return res.json({
+            status: "error",
+            message: "Valid Category Id required",
+        });
+    }
+    try {
+        const category = await Category.findById(req.params.id);
+        return res.status(200).send(category);
     } catch (err) {
         res.status(500).send(err);
     }
