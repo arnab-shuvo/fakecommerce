@@ -62,22 +62,6 @@ module.exports.signup = async (req, res) => {
     res.json(newUser);
 };
 
-module.exports.deleteUser = (req, res) => {
-    if (req.params.id == null) {
-        res.json({
-            status: "error",
-            message: "cart id should be provided",
-        });
-    } else {
-        User.findOne({ id: req.params.id })
-            .select(["-_id"])
-            .then((user) => {
-                res.json(user);
-            })
-            .catch((err) => console.log(err));
-    }
-};
-
 module.exports.addUser = async (req, res) => {
     const ifExist = await User.findOne({ email: req.body.email });
     if (ifExist) {
@@ -137,6 +121,33 @@ module.exports.editUser = async (req, res) => {
             return res.json(responseUser);
         } catch (err) {
             return res.status(500).send(err);
+        }
+    }
+};
+
+module.exports.deleteUser = async (req, res) => {
+    if (req.params.id == null) {
+        res.json({
+            status: "error",
+            message: "user id should be provided",
+        });
+    } else {
+        try {
+            if (!ObjectID.isValid(req.params.id)) {
+                return res.status(404).json({ message: "Not a valid UserId" });
+            }
+            const editableUser = await User.findById(req.params.id);
+            if (!editableUser) {
+                return res.status(404).json({ message: "No User Found" });
+            }
+
+            await User.deleteOne({ _id: ObjectID(req.params.id) });
+            return res
+                .status(301)
+                .json({ message: "User Deleted Successfully" });
+        } catch (err) {
+            console.log(err, "==err");
+            return res.status(500).send({ err: "err" });
         }
     }
 };
