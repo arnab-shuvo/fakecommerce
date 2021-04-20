@@ -4,6 +4,7 @@ const passport = require("passport");
 const { signUpValidator, loginValidator } = require("../validator");
 const { signup, addUser, editUser } = require("../controller/user");
 const { isAuth } = require("../auth/auth");
+const isAdmin = require("../middleware/isAdmin");
 
 // router.get('/',user.getAllUser)
 router.post("/signup", signUpValidator, signup);
@@ -15,7 +16,7 @@ router.post(
         res.json(req.user);
     },
 );
-router.post("/user", signUpValidator, isAuth, addUser);
-router.patch("/user/:id", isAuth, editUser);
+router.post("/user", signUpValidator, isAuth, isAdmin, addUser);
+router.patch("/user/:id", isAuth, isAdmin, editUser);
 
 module.exports = router;
