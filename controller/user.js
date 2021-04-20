@@ -1,4 +1,5 @@
 const User = require("../model/user");
+const ObjectID = require("mongodb").ObjectID;
 
 module.exports.getAllUser = (req, res) => {
     const limit = Number(req.query.limit) || 0;
@@ -61,37 +62,6 @@ module.exports.signup = async (req, res) => {
     res.json(newUser);
 };
 
-module.exports.editUser = (req, res) => {
-    if (typeof req.body == undefined || req.params.id == null) {
-        res.json({
-            status: "error",
-            message: "something went wrong! check your sent data",
-        });
-    } else {
-        res.json({
-            id: req.params.id,
-            email: req.body.email,
-            username: req.body.username,
-            password: req.body.password,
-            name: {
-                firstname: req.body.firstname,
-                lastname: req.body.lastname,
-            },
-            address: {
-                city: req.body.address.city,
-                street: req.body.address.street,
-                number: req.body.number,
-                zipcode: req.body.zipcode,
-                geolocation: {
-                    lat: req.body.geolocation.lat,
-                    long: req.body.geolocation.long,
-                },
-            },
-            phone: req.body.phone,
-        });
-    }
-};
-
 module.exports.deleteUser = (req, res) => {
     if (req.params.id == null) {
         res.json({
@@ -105,5 +75,68 @@ module.exports.deleteUser = (req, res) => {
                 res.json(user);
             })
             .catch((err) => console.log(err));
+    }
+};
+
+module.exports.addUser = async (req, res) => {
+    const ifExist = await User.findOne({ email: req.body.email });
+    if (ifExist) {
+        return res.status(400).json({ message: "Email already exist" });
+    }
+    try {
+        const user = new User({
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
+            address: {
+                city: req.body.address ? req.body.address.city : "N/A",
+                street: req.body.address ? req.body.street : "N/A",
+                number: req.body.number ? req.body.number : 0,
+                zipcode: req.body.zipcode ? req.body.zipcode : 0,
+                geolocation: {
+                    lat: req.body.geolocation ? req.body.geolocation.lat : 0,
+                    long: req.body.geolocation ? req.body.geolocation.lat : 0,
+                },
+            },
+            phone: req.body.phone ? req.body.phone : 0,
+            role: req.body.role ? req.body.role : "user",
+        });
+        await user.save();
+        const newUser = await User.findOne({ email: user.email }).select([
+            "-_id",
+            "-password",
+        ]);
+        res.json(newUser);
+    } catch (error) {
+        return res.status(500).send(err);
+    }
+};
+
+module.exports.editUser = async (req, res) => {
+    if (typeof req.body == undefined || req.params.id == null) {
+        res.json({
+            status: "error",
+            message: "something went wrong! check your sent data",
+        });
+    } else {
+        try {
+            if (!ObjectID.isValid(req.params.id)) {
+                return res.status(404).json({ message: "Not a valid UserId" });
+            }
+            const editableUser = await User.findById(req.params.id);
+            if (!editableUser) {
+                return res.status(404).json({ message: "No User Found" });
+            }
+
+            await User.findByIdAndUpdate(req.params.id, req.body);
+            const responseUser = await User.findById(req.params.id).select(
+                "-password",
+            );
+            return res.json(responseUser);
+        } catch (err) {
+            return res.status(500).send(err);
+        }
     }
 };

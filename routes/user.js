@@ -2,7 +2,8 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const { signUpValidator, loginValidator } = require("../validator");
-const { signup } = require("../controller/user");
+const { signup, addUser, editUser } = require("../controller/user");
+const { isAuth } = require("../auth/auth");
 
 // router.get('/',user.getAllUser)
 router.post("/signup", signUpValidator, signup);
@@ -14,5 +15,7 @@ router.post(
         res.json(req.user);
     },
 );
+router.post("/user", signUpValidator, isAuth, addUser);
+router.patch("/user/:id", isAuth, editUser);
 
 module.exports = router;
