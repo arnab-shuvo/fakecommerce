@@ -32,7 +32,7 @@ module.exports.addCart = async (req, res) => {
             message: "data is undefined",
         });
     } else {
-        const cart = await Cart.findOne({ userId: req.user._id });
+        const cart = await Cart.findOne({ userId: req.user._id,status:0 });
         if (!cart) {
             try {
                 const newCart = new Cart({
