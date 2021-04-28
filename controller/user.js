@@ -149,9 +149,7 @@ module.exports.deleteUser = async (req, res) => {
             }
 
             await User.deleteOne({ _id: ObjectID(req.params.id) });
-            return res
-                .status(301)
-                .json({ message: "User Deleted Successfully" });
+            return res.json({ message: "User Deleted Successfully" });
         } catch (err) {
             console.log(err, "==err");
             return res.status(500).send({ err: "err" });
