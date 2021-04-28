@@ -354,6 +354,42 @@ fetch("{BASE_URL}/user/{UserId}", {
     .then((json) => console.log(json));
 ```
 
+### Get user by ID
+
+Require Admin Authentication
+
+```js
+fetch("{BASE_URL}/user/{UserId}", {
+    method: "GET",
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
+### Get All User List
+
+Require Admin Authentication
+
+```js
+fetch("{BASE_URL}/user/", {
+    method: "GET",
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
+### Get My Information
+
+Require Authentication
+
+```js
+fetch("{BASE_URL}/my-detail/", {
+    method: "GET",
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
 ## ToDo
 
 -   Add graphql support

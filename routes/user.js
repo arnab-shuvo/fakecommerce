@@ -2,7 +2,15 @@ const express = require("express");
 const router = express.Router();
 const passport = require("passport");
 const { signUpValidator, loginValidator } = require("../validator");
-const { signup, addUser, editUser, deleteUser } = require("../controller/user");
+const {
+    signup,
+    addUser,
+    editUser,
+    deleteUser,
+    getAllUser,
+    getUser,
+    getMyInfo,
+} = require("../controller/user");
 const { isAuth } = require("../auth/auth");
 const isAdmin = require("../middleware/isAdmin");
 
@@ -19,5 +27,8 @@ router.post(
 router.post("/user", signUpValidator, isAuth, isAdmin, addUser);
 router.patch("/user/:id", isAuth, isAdmin, editUser);
 router.delete("/user/:id", isAuth, isAdmin, deleteUser);
+router.get("/user/", isAuth, isAdmin, getAllUser);
+router.get("/user/:id", isAuth, isAdmin, getUser);
+router.get("/my-detail", isAuth, getMyInfo);
 
 module.exports = router;
