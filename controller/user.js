@@ -1,33 +1,40 @@
 const User = require("../model/user");
 const ObjectID = require("mongodb").ObjectID;
 
-module.exports.getAllUser = (req, res) => {
-    const limit = Number(req.query.limit) || 0;
-    const sort = req.query.sort == "desc" ? -1 : 1;
-
-    User.find()
-        .select(["-_id"])
-        .limit(limit)
-        .sort({
-            id: sort,
-        })
-        .then((users) => {
-            res.json(users);
-        })
-        .catch((err) => console.log(err));
+module.exports.getAllUser = async (req, res) => {
+    try {
+        const allUser = await User.find().select(["-password"]);
+        res.json(allUser);
+    } catch (error) {
+        return res.status(500).send(err);
+    }
 };
 
-module.exports.getUser = (req, res) => {
-    const _id = req.params.id;
+module.exports.getUser = async (req, res) => {
+    if (typeof req.body == undefined || req.params.id == null) {
+        res.json({
+            status: "error",
+            message: "something went wrong! check your sent data",
+        });
+    } else {
+        try {
+            const selectedUser = await User.findById(req.params.id).select([
+                "-_id",
+            ]);
+            res.json(selectedUser);
+        } catch (error) {
+            return res.status(500).send(err);
+        }
+    }
+};
 
-    User.findOne({
-        _id,
-    })
-        .select(["-_id"])
-        .then((user) => {
-            res.json(user);
-        })
-        .catch((err) => console.log(err));
+module.exports.getMyInfo = async (req, res) => {
+    try {
+        const selectedUser = await User.findById(req.user._id);
+        res.json(selectedUser);
+    } catch (error) {
+        return res.status(500).send(err);
+    }
 };
 
 module.exports.signup = async (req, res) => {
