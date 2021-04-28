@@ -209,6 +209,16 @@ fetch("{BASE_URL}/order")
     .then((json) => console.log(json));
 ```
 
+### Get My Order List
+
+Require Authentication
+
+```js
+fetch("{BASE_URL}/my-order")
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
 ### Checkout a Cart
 
 Require User Authentication
