@@ -14,6 +14,19 @@ module.exports.getAllOrder = async (req, res) => {
         res.status(500).send(err);
     }
 };
+
+module.exports.getAllMyOrder = async (req, res) => {
+    try {
+        Order.find({ userId: req.user._id })
+            .populate("products.productId")
+            .populate("userId", { password: 0, _id: 0 })
+            .exec((err, data) => {
+                return res.json(data);
+            });
+    } catch (err) {
+        res.status(500).send(err);
+    }
+};
 module.exports.createOrder = async (req, res) => {
     const userId = req.user._id;
     try {
