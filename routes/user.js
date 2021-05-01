@@ -10,6 +10,7 @@ const {
     getAllUser,
     getUser,
     getMyInfo,
+    updateMyInfo,
 } = require("../controller/user");
 const { isAuth } = require("../auth/auth");
 const isAdmin = require("../middleware/isAdmin");
@@ -30,5 +31,6 @@ router.delete("/user/:id", isAuth, isAdmin, deleteUser);
 router.get("/user/", isAuth, isAdmin, getAllUser);
 router.get("/user/:id", isAuth, isAdmin, getUser);
 router.get("/my-detail", isAuth, getMyInfo);
+router.patch("/my-detail", isAuth, updateMyInfo);
 
 module.exports = router;

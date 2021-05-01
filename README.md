@@ -400,6 +400,39 @@ fetch("{BASE_URL}/my-detail/", {
     .then((json) => console.log(json));
 ```
 
+### Edit My Information
+
+Require Authentication
+
+```
+req.body = {
+     "address": {
+        "geolocation": {
+            "lat": "0",
+            "long": "0"
+        },
+        "city": "N/A",
+        "street": "N/A",
+        "number": 0,
+        "zipcode": "0"
+    },
+    "role": "user/admin",
+    "email": "user@email.com",
+    "username": "username",
+    "phone": "phonenumber",
+    "password": "password"
+}
+
+```
+
+```js
+fetch("{BASE_URL}/my-detail/", {
+    method: "PATCH",
+})
+    .then((res) => res.json())
+    .then((json) => console.log(json));
+```
+
 ## ToDo
 
 -   Add graphql support

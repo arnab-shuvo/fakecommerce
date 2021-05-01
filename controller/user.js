@@ -132,6 +132,23 @@ module.exports.editUser = async (req, res) => {
     }
 };
 
+module.exports.updateMyInfo = async (req, res) => {
+    const user = await User.findOne(req.user._id);
+    if (!user) {
+        return res.status(400).json({ message: "No User Found" });
+    }
+    try {
+        await User.findByIdAndUpdate(req.user._id, req.body);
+        const responseUser = await User.findById(req.user._id).select(
+            "-password",
+        );
+        return res.json(responseUser);
+    } catch (error) {
+        console.log(error, "==error");
+        return res.status(500).send(error);
+    }
+};
+
 module.exports.deleteUser = async (req, res) => {
     if (req.params.id == null) {
         res.json({
