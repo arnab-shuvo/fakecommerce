@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const ObjectID = require("mongodb").ObjectID;
+const bcrypt = require("bcrypt");
 
 module.exports.getAllUser = async (req, res) => {
     try {
@@ -74,11 +75,12 @@ module.exports.addUser = async (req, res) => {
     if (ifExist) {
         return res.status(400).json({ message: "Email already exist" });
     }
+    const hashPass = await bcrypt.hash(req.body.password, 10);
     try {
         const user = new User({
             email: req.body.email,
             username: req.body.username,
-            password: req.body.password,
+            password: hashPass,
             firstname: req.body.firstname,
             lastname: req.body.lastname,
             address: {
@@ -121,7 +123,12 @@ module.exports.editUser = async (req, res) => {
                 return res.status(404).json({ message: "No User Found" });
             }
 
-            await User.findByIdAndUpdate(req.params.id, req.body);
+            const updatedInfo = req.body;
+            if (updatedInfo.password) {
+                const hashPass = await bcrypt.hash(req.body.password, 10);
+                updatedInfo.password = hashPass;
+            }
+            await User.findByIdAndUpdate(req.params.id, updatedInfo);
             const responseUser = await User.findById(req.params.id).select(
                 "-password",
             );
@@ -138,7 +145,12 @@ module.exports.updateMyInfo = async (req, res) => {
         return res.status(400).json({ message: "No User Found" });
     }
     try {
-        await User.findByIdAndUpdate(req.user._id, req.body);
+        const updatedInfo = req.body;
+        if (updatedInfo.password) {
+            const hashPass = await bcrypt.hash(req.body.password, 10);
+            updatedInfo.password = hashPass;
+        }
+        await User.findByIdAndUpdate(req.user._id, updatedInfo);
         const responseUser = await User.findById(req.user._id).select(
             "-password",
         );
