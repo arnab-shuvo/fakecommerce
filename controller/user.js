@@ -50,13 +50,17 @@ module.exports.signup = async (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         address: {
-            city: req.body.address ? req.body.address.city : "N/A",
-            street: req.body.address ? req.body.street : "N/A",
-            number: req.body.number ? req.body.number : 0,
-            zipcode: req.body.zipcode ? req.body.zipcode : 0,
+            city: req.body.address.city ? req.body.address.city : "N/A",
+            street: req.body.address.street ? req.body.address.street : "N/A",
+            number: req.body.address.number ? req.body.address.number : 0,
+            zipcode: req.body.address.zipcode ? req.body.address.zipcode : 0,
             geolocation: {
-                lat: req.body.geolocation ? req.body.geolocation.lat : 0,
-                long: req.body.geolocation ? req.body.geolocation.lat : 0,
+                lat: req.body.address.geolocation.lat
+                    ? req.body.address.geolocation.lat
+                    : 0,
+                long: req.body.address.geolocation.long
+                    ? req.body.address.geolocation.long
+                    : 0,
             },
         },
         phone: req.body.phone ? req.body.phone : 0,
@@ -75,7 +79,7 @@ module.exports.addUser = async (req, res) => {
     if (ifExist) {
         return res.status(400).json({ message: "Email already exist" });
     }
-    const updatedInfo = req.body;
+    // const updatedInfo = req.body;
     // if (updatedInfo.password) {
     //     const hashPass = await bcrypt.hash(req.body.password, 10);
     //     updatedInfo.password = hashPass;
@@ -84,27 +88,31 @@ module.exports.addUser = async (req, res) => {
 
     try {
         const user = new User({
-            email: updatedInfo.email,
-            username: updatedInfo.username,
-            password: updatedInfo.password,
-            firstname: updatedInfo.firstname,
-            lastname: updatedInfo.lastname,
+            email: req.body.email,
+            username: req.body.username,
+            password: req.body.password,
+            firstname: req.body.firstname,
+            lastname: req.body.lastname,
             address: {
-                city: updatedInfo.address ? updatedInfo.address.city : "N/A",
-                street: updatedInfo.address ? updatedInfo.street : "N/A",
-                number: updatedInfo.number ? updatedInfo.number : 0,
-                zipcode: updatedInfo.zipcode ? updatedInfo.zipcode : 0,
+                city: req.body.address.city ? req.body.address.city : "N/A",
+                street: req.body.address.street
+                    ? req.body.address.street
+                    : "N/A",
+                number: req.body.address.number ? req.body.address.number : 0,
+                zipcode: req.body.address.zipcode
+                    ? req.body.address.zipcode
+                    : 0,
                 geolocation: {
-                    lat: updatedInfo.geolocation
-                        ? updatedInfo.geolocation.lat
+                    lat: req.body.address.geolocation.lat
+                        ? req.body.address.geolocation.lat
                         : 0,
-                    long: updatedInfo.geolocation
-                        ? updatedInfo.geolocation.lat
+                    long: req.body.address.geolocation.long
+                        ? req.body.address.geolocation.long
                         : 0,
                 },
             },
-            phone: updatedInfo.phone ? updatedInfo.phone : 0,
-            role: updatedInfo.role ? updatedInfo.role : "user",
+            phone: req.body.phone ? req.body.phone : 0,
+            role: "user",
         });
         await user.save();
         const newUser = await User.findOne({ email: user.email }).select([
