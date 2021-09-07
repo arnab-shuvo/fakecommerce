@@ -125,33 +125,37 @@ module.exports.editProduct = async (req, res) => {
         });
     } else {
         try {
-            const base64Info = req.body.image.split(";base64,");
-            const imageType = base64Info[0].split("data:image/")[1];
-            const base64Data = base64Info[1];
-            if (!isBase64(base64Data)) {
-                return res.json({
-                    message: "Invalid Image Data",
-                });
+            let updatedProductData = {...productInputValue}
+            if(req.body.image){
+                const base64Info = req.body.image.split(";base64,");
+                const imageType = base64Info[0].split("data:image/")[1];
+                const base64Data = base64Info[1];
+                if (!isBase64(base64Data)) {
+                    return res.json({
+                        message: "Invalid Image Data",
+                    });
+                }
+                const uploadPath = process.cwd();
+                const localPath = `${uploadPath}/uploads/`;
+                const fileName = `${Date.now()}_${Math.floor(
+                    Math.random() * 300000 + 200000,
+                )}.${imageType}`;
+                fs.writeFileSync(
+                    localPath + fileName,
+                    base64Data,
+                    "base64",
+                    function (err, data) {
+                        if (err) {
+                            throw new Error(err);
+                        }
+                    },
+                );
+                updatedProductData.image = fileName
             }
-            const uploadPath = process.cwd();
-            const localPath = `${uploadPath}/uploads/`;
-            const fileName = `${Date.now()}_${Math.floor(
-                Math.random() * 300000 + 200000,
-            )}.${imageType}`;
-            fs.writeFileSync(
-                localPath + fileName,
-                base64Data,
-                "base64",
-                function (err, data) {
-                    if (err) {
-                        throw new Error(err);
-                    }
-                },
-            );
 
             await Product.updateOne(
                 { _id: req.params.id },
-                { $set: { ...productInputValue, image: `/files/${fileName}` } },
+                { $set: { ...updatedProductData } },
             );
             const updatedProduct = await Product.findById({
                 _id: req.params.id,
