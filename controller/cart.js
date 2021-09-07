@@ -15,7 +15,10 @@ module.exports.getCartsbyUserid = async (req, res) => {
                     return res.json(data);
                 });
         } else {
-            return res.json([]);
+            return  res.json({
+                status: "error",
+                message: "No Cart Found",
+            }).status(404);
         }
     } catch (error) {
         res.json({
