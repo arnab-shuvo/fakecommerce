@@ -2,11 +2,14 @@ module.exports = (req, res, next) => {
     //Validate post creation rule from schema
     req.check("status", "Status required").notEmpty();
     req.check("status", "Invalid Status supplied ").custom((data) => {
-        if ([0, 1, 2].includes(data)) return false;
+        if (![0, 1, 2].includes(data)) return false;
         return true;
     });
-    req.check("status", "Invalid Status supplied ").custom((data) => {
-        if (typeof data !== "number") return false;
+    req.check("status", "Invalid Status supplied").custom((data) => {
+       
+        if (typeof data !== "number") {
+            return false;
+        }
         return true;
     });
 
