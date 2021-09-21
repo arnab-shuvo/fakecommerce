@@ -150,7 +150,7 @@ module.exports.editProduct = async (req, res) => {
                         }
                     },
                 );
-                updatedProductData.image = fileName
+                updatedProductData.image =  `/files/${fileName}`
             }
 
             await Product.updateOne(
