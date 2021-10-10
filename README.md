@@ -214,7 +214,7 @@ fetch("{BASE_URL}/order")
 Require Authentication
 
 ```js
-fetch("{BASE_URL}/my-order")
+fetch("{BASE_URL}/order/my-order")
     .then((res) => res.json())
     .then((json) => console.log(json));
 ```
